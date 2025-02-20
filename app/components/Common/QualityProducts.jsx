@@ -1,6 +1,6 @@
 "use client";
-import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { motion, useInView } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -38,7 +38,8 @@ const images = [
 
 export default function QualityProducts() {
   const [activeIndex, setActiveIndex] = useState(0);
-
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
   const imagesLength = images.length;
   const [isMobile, setIsMobile] = useState(false);
   const slidesPerView = isMobile ? 1.5 : 2.5;
@@ -71,21 +72,22 @@ export default function QualityProducts() {
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   return (
-    <div className="flex flex-col items-center py-[82px] md:py-40">
-      <motion.h2
+    <div ref={sectionRef}  className="flex flex-col items-center py-[82px] md:py-40">
+     <motion.h2
         className="md:text-xl text-[30px] text-black font-normal mb-4"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
+        initial={{ opacity: 0, y: 50 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.8, ease: "easeOut" }}
       >
         Quality Products
       </motion.h2>
 
+      {/* Animated Paragraph */}
       <motion.p
         className="text-center max-w-lg text-[#7A7777] mb-16"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.4 }}
+        initial={{ opacity: 0, y: 30 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
       >
         Lorem ipsum dolor sit amet, <br className="block md:hidden" />{" "}
         consectetur adipiscing elit, sed do <br className="block md:hidden" />{" "}
