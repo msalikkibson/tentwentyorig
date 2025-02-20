@@ -36,17 +36,28 @@ const HeroSlider = () => {
       const size = window.innerWidth > 768 ? 138 : 115;
       const borderSize = 8;
       const totalLength = size * 4;
-      const progressLength = (overallProgress / (totalSlides * 100)) * totalLength;
+      const progressLength =
+        (overallProgress / (totalSlides * 100)) * totalLength;
 
       let backgroundPosition = "";
       if (progressLength <= size) {
-        backgroundPosition = `${-size + progressLength}px 0px, ${size - borderSize}px -${size}px, ${size}px ${size - borderSize}px, 0px ${size - borderSize}px`;
+        backgroundPosition = `${-size + progressLength}px 0px, ${
+          size - borderSize
+        }px -${size}px, ${size}px ${size - borderSize}px, 0px ${
+          size - borderSize
+        }px`;
       } else if (progressLength <= size * 2) {
-        backgroundPosition = `0px 0px, ${size - borderSize}px ${-size + (progressLength - size)}px, ${size}px ${size - borderSize}px, 0px ${size - borderSize}px`;
+        backgroundPosition = `0px 0px, ${size - borderSize}px ${
+          -size + (progressLength - size)
+        }px, ${size}px ${size - borderSize}px, 0px ${size - borderSize}px`;
       } else if (progressLength <= size * 3) {
-        backgroundPosition = `0px 0px, ${size - borderSize}px 0px, ${size - (progressLength - size * 2)}px ${size - borderSize}px, 0px ${size - borderSize}px`;
+        backgroundPosition = `0px 0px, ${size - borderSize}px 0px, ${
+          size - (progressLength - size * 2)
+        }px ${size - borderSize}px, 0px ${size - borderSize}px`;
       } else {
-        backgroundPosition = `0px 0px, ${size - borderSize}px 0px, 0px ${size - borderSize}px, 0px ${size - (progressLength - size * 3)}px`;
+        backgroundPosition = `0px 0px, ${size - borderSize}px 0px, 0px ${
+          size - borderSize
+        }px, 0px ${size - (progressLength - size * 3)}px`;
       }
 
       overallProgressRef.current.style.backgroundPosition = backgroundPosition;
@@ -56,9 +67,10 @@ const HeroSlider = () => {
   const handleNext = () => {
     setCurrentSlide((prev) => (prev + 1) % totalSlides);
     setProgress(0);
-  
+
     if (overallProgressRef.current) {
-      overallProgressRef.current.style.backgroundPosition = "0px 0px, 130px 0px, 0px 130px, 0px 0px";
+      overallProgressRef.current.style.backgroundPosition =
+        "0px 0px, 130px 0px, 0px 130px, 0px 0px";
     }
   };
 
@@ -97,15 +109,12 @@ const HeroSlider = () => {
             {String(currentSlide + 1).padStart(2, "0")}
           </span>
           <div
-            className="md:w-[200px] w-[100px] h-[1px] overflow-hidden relative"
+            className="md:w-[103px] w-[100px] h-[1px] overflow-hidden relative"
             style={{ backgroundColor: "rgba(238, 244, 249, 0.3)" }}
           >
             <motion.div
               key={currentSlide}
               className="h-full bg-white absolute left-0 top-0"
-              initial={{ width: 0 }}
-              animate={{ width: `${progress}%` }}
-              transition={{ duration: slideDuration / 1000, ease: "linear" }}
             />
           </div>
           <span className="md:text-secondary text-[#F9F4EE] md:text-[16px] text-sm">
