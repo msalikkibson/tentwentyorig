@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 import SliderOne from "@/public/sliderone.png";
 import SliderTwo from "@/public/slidertwo.jpg";
@@ -79,25 +79,29 @@ const HeroSlider = () => {
     setProgress(0);
     setInnerProgress(0);
   };
-
   return (
     <div className="h-screen flex justify-center relative overflow-hidden">
+      <AnimatePresence mode="wait">
       <motion.div
-        key={currentSlide}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 1 }}
-        className="absolute inset-0 w-full h-full"
-      >
-        <Image
-          src={slides[currentSlide]}
-          alt="slider"
-          layout="fill"
-          objectFit="cover"
-          className="w-full h-full"
-        />
-      </motion.div>
+  key={currentSlide}
+  initial={{ scale: 1.1, opacity: 0 }}
+  animate={{ scale: 1, opacity: 1 }}
+  exit={{ opacity: 0, scale: 1 }}
+  transition={{ duration: 1, ease: "easeOut" }}
+  className="absolute inset-0 w-full h-full z-10"
+>
+  <Image
+    src={slides[currentSlide]}
+    alt="slider"
+    layout="fill"
+    objectFit="cover"
+    className="w-full h-full"
+  />
+</motion.div>
+
+      </AnimatePresence>
+
+
       <div className="relative md:left-[135px] left-4 z-10 flex flex-col text-left justify-center items-start w-full max-w-[1440px]">
         <span className="md:text-secondary text-[#F9F4EE] text-sm md:text-[16px] leading-[24px]">
           Welcome To TenTwenty Farms
@@ -106,6 +110,27 @@ const HeroSlider = () => {
           From Our <br className="block md:hidden" /> Farms <br className="" />{" "}
           to your hands
         </h1>
+    
+        <div className="absolute bottom-[100px] md:left-[168px] left-[138px] flex items-center gap-4">
+          <span className="md:text-secondary text-[#F9F4EE] md:text-[16px] text-sm">
+            {String(currentSlide + 1).padStart(2, "0")}
+          </span>
+          <div
+            className="md:w-[200px] w-[100px] h-[1px] overflow-hidden relative"
+            style={{ backgroundColor: "rgba(238, 244, 249, 0.3)" }}
+          >
+            <motion.div
+              className="h-full bg-white absolute left-0 top-0"
+              initial={{ width: 0 }}
+              animate={{ width: `${progress}%` }}
+              transition={{ duration: 1, ease: "linear" }}
+            />
+          </div>
+          <span className="md:text-secondary text-[#F9F4EE] md:text-[16px] text-sm">
+            0{totalSlides}
+          </span>
+        </div>
+
         <div className="absolute bottom-[50px] flex items-center gap-4">
           <div
             className="progress md:w-[138px] w-[115px] h-[115px] md:h-[138px] relative"
@@ -128,30 +153,7 @@ const HeroSlider = () => {
             </button>
           </div>
         </div>
-        <div className="absolute bottom-[100px] md:left-[168px] left-[138px]  flex items-center gap-4">
-          {" "}
-          <span className="md:text-secondary text-[#F9F4EE] md:text-[16px] text-sm">
-            {String(currentSlide + 1).padStart(2, "0")}
-          </span>
-          <div
-            className="md:w-[200px] w-[100px] h-[1px]  overflow-hidden relative"
-            style={{ backgroundColor: "rgba(238, 244, 249, 0.3)" }}
-          >
-            {" "}
-            <div
-              className="h-full bg-white absolute left-0 top-0"
-              ref={innerProgressRef}
-              style={{ width: `${innerProgress}%` }}
-            ></div>{" "}
-          </div>{" "}
-          <span className="md:text-secondary text-[#F9F4EE] md:text-[16px] text-sm">
-            {" "}
-            0{totalSlides}{" "}
-          </span>
-        </div>
       </div>
-
-      <div></div>
     </div>
   );
 };
