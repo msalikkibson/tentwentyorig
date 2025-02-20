@@ -8,7 +8,6 @@ import "swiper/css/pagination";
 
 import Image from "next/image";
 
-
 const images = [
   {
     src: "/imageone.png",
@@ -45,17 +44,16 @@ export default function QualityProducts() {
   const slidesPerView = isMobile ? 1.5 : 2.5;
   useEffect(() => {
     function handleResize() {
-      setIsMobile(window.innerWidth <= 768); // Adjust breakpoint as needed
+      setIsMobile(window.innerWidth <= 768);
     }
 
-    window.addEventListener("resize", handleResize); // Add event listener
+    window.addEventListener("resize", handleResize);
 
-    handleResize(); // Initial check
+    handleResize();
 
-    return () => window.removeEventListener("resize", handleResize); // Clean up
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Function to calculate center index
   const calculateCenterIndex = () => {
     let centerIndex;
     if (imagesLength <= slidesPerView) {
@@ -99,21 +97,18 @@ export default function QualityProducts() {
         commodo consequat.
       </motion.p>
 
-      {/* Swiper Slider */}
       <Swiper
         slidesPerView={slidesPerView}
         spaceBetween={isMobile ? 40 : 20}
-        // freeMode={true}
-        // modules={[FreeMode]}
         loop={false}
-          initialSlide={1} // Start from the second slide
-          centeredSlidesBounds={true} 
-          slideToClickedSlide={true} 
-          speed={500} 
+        initialSlide={1}
+        centeredSlidesBounds={true}
+        slideToClickedSlide={true}
+        speed={500}
         centeredSlides={isMobile ? true : false}
         className="w-full relative "
         onSlideChange={(swiper) => {
-          const newActiveIndex = swiper.realIndex; // `realIndex` gives the correct slide index when looping
+          const newActiveIndex = swiper.realIndex;
           setActiveIndex(newActiveIndex);
           setHoveredIndex(null);
         }}
@@ -122,9 +117,9 @@ export default function QualityProducts() {
           let rotation = 0;
 
           if (index === centerIndex - 1) {
-            rotation = -10; // Left neighbor
+            rotation = -10;
           } else if (index === centerIndex + 1) {
-            rotation = 10; // Right neighbor
+            rotation = 10;
           }
 
           return (
@@ -149,14 +144,13 @@ export default function QualityProducts() {
                 />
               </motion.div>
 
-              {/* Conditionally render the text */}
               {index === centerIndex && (
                 <motion.div
                   className="flex flex-col items-center justify-center mt-10 md:mt-12 w-full md:w-[434px]"
-                  initial={{ opacity: 0, y: 20 }} // Start below and hidden
-                  animate={{ opacity: 1, y: 0 }} // Move up and show
-                  transition={{ duration: 0.7, ease: "easeIn" }} // Smooth transition
-                  key={image.text} // Key for proper re-render
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, ease: "easeIn" }}
+                  key={image.text}
                 >
                   <h3 className="md:text-lg text-md text-black font-normal">
                     {image.text}
@@ -166,14 +160,13 @@ export default function QualityProducts() {
                   </p>
                 </motion.div>
               )}
-{console.log(centerIndex,'centerIndex')}
+              {console.log(centerIndex, "centerIndex")}
               {index === centerIndex && hoveredIndex === centerIndex && (
                 <div
                   className="absolute bg-white  rounded-full top-[270px] left-[170px] w-[99px] h-[99px] md:flex hidden items-center justify-center text-black text-[20px] cursor-pointer transition duration-300 ease-in-out"
                   style={{ opacity: hoveredIndex === centerIndex ? 1 : 0 }}
                 >
                   {" "}
-                  {/* Transition for smooth appearance */}
                   Drag
                 </div>
               )}
